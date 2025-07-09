@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLW: Produce Press</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Roboto Condensed Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-image: url('https://images.squarespace-cdn.com/content/v1/613b655e0770766f13ca5d91/1638426136915-WFM6Q9SY7RRKLMQF21JA/Lettuce+Field.jpg?format=1500w');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .animate-scaleIn {
+            animation: scaleIn 0.3s ease-out forwards;
+        }
+        .hidden {
+            display: none;
+        }
+        .symbol-box {
+            background-color: #f3f4f6; /* Light grey background */
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 0.25rem;
+            padding: 4px 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 0.8em;
+        }
+        .symbol-box .price-symbol {
+            color: #22c55e;
+        }
+        .symbol-box .quality-symbol {
+            color: #fbbf24;
+        }
+        .body-content-wrapper {
+             background-color: rgba(255, 255, 255, 0.7);
+             min-height: 100vh;
+             width: 100%;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             padding: 6px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2px;
+        }
+        .legend-symbol {
+            font-size: 1.0em;
+            margin-right: 6px;
+            min-width: 20px;
+            text-align: center;
+        }
+        .legend-section {
+            padding: 0 8px;
+        }
+        /* Specific colors for supply symbols */
+        /* These classes are now directly applied to text and will not use SVG fill */
+        .supply-color-dark-green { color: #006400; } /* Dark Green for Abundant/Plentiful */
+        .supply-color-light-green { color: #90EE90; } /* Light Green for Increasing/Good */
+        .supply-color-blue { color: #0000FF; } /* Blue for Average/Moderate */
+        .supply-color-red { color: #FF0000; } /* Red for Decreasing/Limited */
+        .supply-color-yellow { color: #DAA520; } /* Adjusted Yellow for Tight/Low for better contrast */
+
+        /* Mobile-specific adjustments for modal */
+        @media (max-width: 640px) { /* Tailwind's 'sm' breakpoint */
+            #detail-modal > div { /* Target the inner modal content box */
+                padding: 1rem; /* Reduce padding on small screens */
+                width: 95%; /* Take up more width on small screens */
+                max-width: none; /* Remove max-width constraint on small screens */
+            }
+            #modal-details {
+                font-size: 1rem; /* Change text-lg to text-base for mobile */
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center antialiased">
+    <div class="body-content-wrapper">
+        <!-- Page Title -->
+        <h1 class="text-5xl font-extrabold text-gray-900 mb-6 text-center leading-tight">
+            GLW: Produce Press
+        </h1>
+
+        <!-- Sorting and Legend Container -->
+        <div class="w-full max-w-6xl flex flex-col sm:flex-row justify-between items-center mb-8 p-2 bg-slate-200 rounded-xl shadow-md border border-gray-200">
+            <!-- Sorting Dropdown -->
+            <div class="mb-4 sm:mb-0 sm:mr-4 flex-shrink-0">
+                <label for="sort-by" class="block text-gray-700 text-sm font-bold mb-2">Sort By:</label>
+                <select id="sort-by" class="block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-300">
+                    <option value="title-asc">Title (A-Z)</option>
+                    <option value="title-desc">Title (Z-A)</option>
+                    <option value="price-asc">Price (Low to High)</option>
+                    <option value="price-desc">Price (High to Low)</option>
+                    <option value="quality-asc">Quality (Low to High)</option>
+                    <option value="quality-desc">Quality (High to Low)</option>
+                    <option value="supply-asc">Supply (Low to High)</option>
+                    <option value="supply-desc">Supply (High to Low)</option>
+                </select>
+            </div>
+
+            <!-- Symbol Legend -->
+            <div class="flex flex-grow justify-around items-start text-gray-700 text-sm w-full sm:w-auto">
+                <!-- Price Legend Section -->
+                <div class="legend-section flex-shrink-0 mr-4">
+                    <h3 class="font-bold mb-1">Price:</h3>
+                    <div class="legend-item"><span class="legend-symbol price-symbol">$</span>Low</div>
+                    <div class="legend-item"><span class="legend-symbol price-symbol">$$</span>Moderate</div>
+                    <div class="legend-item"><span class="legend-symbol price-symbol">$$$</span>High</div>
+                </div>
+
+                <!-- Quality Legend Section (Two Columns) -->
+                <div class="legend-section flex-shrink-0 mr-4">
+                    <h3 class="font-bold mb-1">Quality:</h3>
+                    <div class="grid grid-cols-2 gap-x-2">
+                        <div class="legend-item"><span class="legend-symbol quality-symbol">⭐⭐⭐⭐⭐</span>Excellent</div>
+                        <div class="legend-item"><span class="legend-symbol quality-symbol">⭐⭐⭐⭐</span>Very Good</div>
+                        <div class="legend-item"><span class="legend-symbol quality-symbol">⭐⭐⭐</span>Good</div>
+                        <div class="legend-item"><span class="legend-symbol quality-symbol">⭐⭐</span>Fair</div>
+                        <div class="legend-item"><span class="legend-symbol quality-symbol">⭐</span>Low</div>
+                    </div>
+                </div>
+
+                <!-- Supply Legend Section (Two Columns) -->
+                <div class="legend-section flex-shrink-0">
+                    <h3 class="font-bold mb-1">Supply:</h3>
+                    <div class="grid grid-cols-2 gap-x-2">
+                        <div class="legend-item"><span class="legend-symbol supply-color-dark-green">█</span>Abundant/Plentiful</div>
+                        <div class="legend-item"><span class="legend-symbol supply-color-light-green">▆</span>Increasing/Good</div>
+                        <div class="legend-item"><span class="legend-symbol supply-color-blue">▅</span>Average/Moderate</div>
+                        <div class="legend-item"><span class="legend-symbol supply-color-red">▃</span>Decreasing/Limited</div>
+                        <div class="legend-item"><span class="legend-symbol supply-color-yellow">▂</span>Tight/Low</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid container for reference items -->
+        <div id="reference-items-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 w-full max-w-6xl">
+            <!-- Tiles will be inserted here by JavaScript -->
+        </div>
+
+        <!-- State of the Market Section -->
+        <div class="w-full max-w-6xl mt-8 p-6 rounded-xl border border-black bg-green-100 bg-opacity-50">
+            <h2 class="text-5xl font-extrabold text-gray-900 mb-4 text-center leading-tight">
+                State of The Market
+            </h2>
+            <p class="text-gray-800 text-lg">
+                This week's produce market is characterized by several regional transitions and lingering weather impacts, influencing supply and pricing across various commodities.
+                <br><br>
+                <strong>Weather Impacts:</strong> Tropical Depression Chantal, which made landfall on July 6, caused minimal damage but brought 2-4 inches of rain to Central and Eastern North Carolina, leading to expected harvesting and fruit maturity delays. This has contributed to limited green bell pepper supplies on the East Coast and lower volumes for some produce from Mexico due to heavy rains and hail. Hurricane Flossie is also mentioned as a potential rain bringer to Baja later this week, though a direct hit is not expected. Cooler temperatures in Santa Maria, California, may slow squash growth.
+                <br><br>
+                <strong>Transitioning Regions:</strong> The industry is actively transitioning between growing regions. Mexican grape supplies are winding down as California-grown fruit is expected to begin next week. Cantaloupe and honeydew production is shifting from California's Imperial Valley to the San Joaquin Valley. Onions are moving from Washington's storage season to fresh runs in Northern California and New Mexico. Michigan's asparagus season is wrapping up, with Central Mexico set to dominate summer supply. California Bartletts will begin shipping around July 14, as Washington's D'Anjou pear storage crop nears its end.
+                <br><br>
+                <strong>Market Conditions:</strong> Overall, prices are elevated for several items due to tight supplies and strong demand, including lemons, broccoli, bell peppers, chile peppers, cucumbers, cauliflower, grapes, green leaf lettuce, limes, iceberg lettuce, and pineapples. Conversely, asparagus and red/yellow potato prices are lower or steady due to strong supplies. Quality remains generally good across most commodities, though some issues like pressure bruising in potatoes, purple cast in broccoli, and scarring in tomatoes have been noted. Strawberry and raspberry markets are steady with good quality, despite strawberries being past their peak in some California regions.
+                <br><br>
+                Consumers can expect continued elevated prices for certain items, particularly those impacted by recent weather events and regional transitions, until supplies stabilize in the coming weeks.
+            </p>
+        </div>
+
+        <!-- The More You Know Section -->
+        <div class="w-full max-w-6xl mt-8 p-6 rounded-xl border border-black" style="background-color: rgba(255, 192, 203, 0.5);">
+            <h2 class="text-5xl font-extrabold text-gray-900 mb-4 text-center leading-tight">
+                The More You Know
+            </h2>
+            <p class="text-gray-800 text-lg">
+                <strong>Picking the Perfect Watermelon: Your Guide to Sweet Summer Slices</strong>
+                <br><br>
+                Watermelon is a quintessential summer fruit, known for its refreshing sweetness and hydrating properties. But how do you pick a truly ripe and juicy one from the bunch? While it might seem like a guessing game, there are several key indicators that can help you select the perfect watermelon every time.
+                <br><br>
+                <ol class="list-decimal list-inside ml-4">
+                    <li>
+                        <strong>The Field Spot (or Ground Spot)</strong><br>
+                        This is perhaps the most reliable sign of ripeness. Look for a large, creamy yellow or even orange-yellow patch on the underside of the watermelon. This spot is where the melon rested on the ground and ripened in the sun [1]. A white or pale green spot indicates that the watermelon was picked too early and isn't as ripe [2].
+                    </li>
+                    <li>
+                        <strong>Dull, Not Shiny, Skin</strong><br>
+                        A ripe watermelon will have a dull, matte appearance. If the skin is shiny, it's likely underripe. As the watermelon matures, its natural waxy coating develops, giving it a less reflective finish [3].
+                    </li>
+                    <li>
+                        <strong>Heavy for its Size</strong><br>
+                        Pick up a few watermelons of similar size. The one that feels heaviest for its size is usually the juiciest and most ripe [1]. Watermelons are over 90% water, so a heavier melon indicates higher water content and thus more juiciness [4].
+                    </li>
+                    <li>
+                        <strong>The "Thump" Test</strong><br>
+                        While some experts debate its reliability, many people swear by the thump test. Gently tap the watermelon with your knuckles. A ripe watermelon should produce a deep, hollow sound, almost like a drum [2]. An unripe melon will sound higher-pitched or metallic, while an overripe one might sound dull or flat [1]. This takes practice to discern, so combine it with other indicators.
+                    </li>
+                    <li>
+                        <strong>Webbing and Sugar Spots</strong><br>
+                        Look for brown, coarse, web-like lines or small black dots on the rind. These are sometimes called "sugar spots" or "pollination scars" and indicate that the watermelon is full of sugar and sweetness [3].
+                    </li>
+                    <li>
+                        <strong>Check the Tendril (if present)</strong><br>
+                        If you're picking from a vine, the tendril (the curly "pigtail" nearest where the melon was attached to the vine) is a good indicator. If it's brown and dried up, the watermelon is likely ripe. If it's still green, it's probably not ready [2].
+                    </li>
+                </ol>
+                <br>
+                By using a combination of these tips, you'll significantly increase your chances of bringing home a perfectly sweet and juicy watermelon.
+                <br><br>
+                <strong>Sources</strong><br>
+                [1] "How to Pick a Ripe Watermelon." The Old Farmer's Almanac, www.almanac.com/how-pick-ripe-watermelon. Accessed 9 July 2025.<br>
+                [2] "How to Pick a Good Watermelon Every Time." Food Network, www.foodnetwork.com/how-to/articles/how-to-pick-a-good-watermelon. Accessed 9 July 2025.<br>
+                [3] "How to Pick a Ripe Watermelon, According to Experts." Better Homes & Gardens, www.bhg.com/recipes/how-to/cooking-basics/how-to-pick-a-watermelon/. Accessed 9 July 2025.<br>
+                [4] "Watermelon: Health Benefits, Nutrients, Preparation, and More." Medical News Today, www.medicalnewstoday.com/articles/266886. Accessed 9 July 2025.
+            </p>
+        </div>
+
+        <!-- The Recipe Book Section -->
+        <div class="w-full max-w-6xl mt-8 p-6 rounded-xl border border-black" style="background-color: rgba(130, 200, 229, 0.5);">
+            <h2 class="text-5xl font-extrabold text-gray-900 mb-4 text-center leading-tight">
+                The Recipe Book
+            </h2>
+            <div class="flex flex-col md:flex-row justify-between items-start gap-6">
+                <div class="flex-1">
+                    <p class="text-gray-800 text-lg">
+                        <br>
+                        <strong>Michigan Cherry & Goat Cheese Crostini with Balsamic Glaze</strong>
+                        <br><br>
+                        Yields: 12-15 crostini | Prep time: 20 minutes | Cook time: 10 minutes
+                        <br><br>
+                        <strong>Ingredients:</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>1 baguette, sliced into 1/2-inch rounds - GFS# 323471</li>
+                            <li>2 tablespoons olive oil - GFS# 432050</li>
+                            <li>1 cup fresh Michigan cherries, pitted and halved - GFS# 438139</li>
+                            <li>4 oz goat cheese, softened - GFS# 139040</li>
+                            <li>2 tablespoons chopped fresh basil - GFS# 165601</li>
+                            <li>1 tablespoon honey</li>
+                            <li>1/4 teaspoon black pepper</li>
+                            <li>Balsamic Glaze (for Drizzle) - GFS# 203453</li>
+                        </ul>
+                        <br>
+                        <strong>Instructions:</strong>
+                        <ol class="list-decimal list-inside ml-4">
+                            <li>
+                                <strong>Prepare the Crostini:</strong> Preheat oven to 375°F (190°C). Arrange baguette slices on a baking sheet. Drizzle lightly with olive oil. Bake for 8-10 minutes, or until golden brown and crisp. Let cool slightly.
+                            </li>
+                            <li>
+                                <strong>Prepare the Cherry Topping:</strong> In a medium bowl, gently combine the pitted and halved cherries, softened goat cheese, chopped fresh basil, honey, and black pepper. Mix until just combined.
+                            </li>
+                            <li>
+                                <strong>Assemble:</strong> Spoon a generous amount of the cherry and goat cheese mixture onto each toasted baguette slice.
+                            </li>
+                            <li>
+                                <strong>Serve:</strong> Drizzle generously with the prepared balsamic glaze just before serving.
+                            </li>
+                        </ol>
+                    </p>
+                </div>
+                <div class="flex-shrink-0 mt-4 md:mt-0 md:ml-6 flex justify-end w-full md:w-auto">
+                    <img src="https://lideylikes.com/wp-content/uploads/2016/06/img_5417-1-scaled.jpg"
+                         alt="Michigan Cherry & Goat Cheese Crostini"
+                         class="w-[300px] h-[300px] object-cover rounded-xl border border-black p-2">
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed View Modal -->
+        <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-2xl w-full mx-auto transform scale-95 opacity-0 animate-scaleIn">
+                <h2 id="modal-title" class="text-3xl font-bold text-gray-900 mb-4"></h2>
+                <p id="modal-details" class="text-gray-700 text-lg mb-6"></p>
+                <button id="close-modal-btn" class="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg text-lg font-semibold mt-6
+                                                     hover:bg-indigo-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Wrap the script content in an IIFE to prevent global variable re-declaration issues
+        (function() {
+            // Data for the reference sheet items, updated from Markon Fresh Crop Report (July 13, 2025)
+            // Added numeric values for sorting
+            const referenceItems = [
+                {
+                    id: '1',
+                    title: 'Red and Yellow Potatoes',
+                    details: 'The market is steady. Texas prices are lower as supplies improve. Storage supply levels are good across all regions. The Florida and Texas season is expected to finish by the end of July, with Minnesota starting in late July and Wisconsin beginning in the first week of August. Some light color and blemishes have been noted on the late storage crop from Idaho, but quality remains strong. MFC and ESS Red and Yellow potatoes are available.',
+                    colorClass: 'bg-amber-200',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▆', supplyValue: 4
+                },
+                {
+                    id: '2',
+                    title: 'Lemons',
+                    details: 'Supplies from California\'s District Two (West Coast) are slightly lower; prices are up. Sizing is dominated by 115-to 140-count fruit; smaller sizes (165- to 200-count) remain limited. The season will transition to Mexico in about two weeks. MFC and ESS Lemons are available.',
+                    colorClass: 'bg-yellow-300',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    supplySymbol: '▃', supplyValue: 2
+                },
+                {
+                    id: '3',
+                    title: 'Broccoli',
+                    details: 'The market is elevated. West Coast fields are facing higher pest pressure and lower acreage while the East Coast is facing weather delays. West Coast supplies are decreasing: Central Mexico is light from rain. North Carolina and Georgia are finishing this month; Midwest and Northeast regions start early July. Some branching and insect issues, but minimal pin rot or yellowing has been reported. MFC Broccoli Crowns are available.',
+                    colorClass: 'bg-green-400',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▃', supplyValue: 2
+                },
+                {
+                    id: '4',
+                    title: 'Tomatoes',
+                    details: 'Markets are a bit higher on the West Coast; pricing is steady on the East Coast. Round and Roma tomatoes are available from both Mexico and California. California has had strong volume; quality is average, with some scarring and color issues. Mexico\'s Eastern and Central regions have moderate volumes and decent quality. Baja volume has dipped slightly as growers finish their season. Supplies are adequate in Alabama and western North Carolina. Tennessee is just starting production; supplies is light. Overall quality is good. MFC Tomatoes are available.',
+                    colorClass: 'bg-red-300',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    supplySymbol: '▅', supplyValue: 3
+                },
+                {
+                    id: '5',
+                    title: 'Oranges',
+                    details: 'Prices are rising. Supplies of California Valencias remain good, with dominant sizes in the 88- to 113-count range; smaller (138-count) fruit is limited. MFC and ESS Oranges are available.',
+                    colorClass: 'bg-orange-300',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐⭐⭐', qualityValue: 5,
+                    supplySymbol: '▆', supplyValue: 4
+                },
+                {
+                    id: '6',
+                    title: 'Asparagus',
+                    details: 'Prices are lower. Supplies are strong from Baja; Central Mexico is limited by rain, and Peru is tapering. Michigan wraps this week; Central Mexico will dominate summer supply. Standard and large sizes are readily available; jumbo and extra-large are limited. Overall quality remains good. MFC Asparagus is on the market.',
+                    colorClass: 'bg-emerald-200',
+                    priceSymbol: '$', priceValue: 1,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '█', supplyValue: 5
+                },
+                {
+                    id: '7',
+                    title: 'Apples',
+                    details: 'Markets are steady. Storage supplies remain good in Washington. Michigan is only shipping Fuji apples; new crop harvesting will start in late summer. Washington MFC Gala, Golden Delicious, Granny Smith, Fuji, and Red Delicious Apples are available. Quality is very good.',
+                    colorClass: 'bg-red-200',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▆', supplyValue: 4
+                },
+                {
+                    id: '8',
+                    title: 'Bell Peppers (Green/Red)',
+                    details: 'West Coast green bell pepper prices are steady with good supply from Bakersfield, while red prices are up due to a tight transition from the Imperial Valley. Fresno will begin green bells in the coming weeks; recent hot weather has caused some red color issues, but green quality remains strong. East Coast prices are up due to light green supply in North Carolina and a slow start in New Jersey, along with limited red supply. Michigan and Ohio will start in about two weeks. Overall quality remains good.',
+                    colorClass: 'bg-lime-200',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▃', supplyValue: 2
+                },
+                {
+                    id: '9',
+                    title: 'Blackberries',
+                    details: 'The market is stable. Volume is ample in California\'s Central Valley and West Coast. Mexican supplies have improved, and overall quality is good.',
+                    colorClass: 'bg-purple-300',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▆', supplyValue: 4
+                },
+                {
+                    id: '10',
+                    title: 'Avocados',
+                    details: 'Supplies are adequate and prices remain level. The loca-style crop (typically known for lower oil content) is still being harvested. Supplies are strong in California and Peru. RSS Avocado Chunks, Halves, Pico de Gallo Guacamole, and Pure Pulp are available.',
+                    colorClass: 'bg-green-300',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▆', supplyValue: 4
+                },
+                {
+                    id: '11',
+                    title: 'Blueberries',
+                    details: 'Prices remain steady. The Mexican season has ended. Volume is starting to decrease in California\'s San Joaquin Valley. Florida yields are down; the season has been shortened as poor weather is causing quality problems. Limited supplies are now shipping from Eastern Washington and Hermiston, Oregon. Quality is good.',
+                    colorClass: 'bg-indigo-300',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    supplySymbol: '▃', supplyValue: 2
+                },
+                {
+                    id: '13',
+                    title: 'Celery',
+                    details: 'Prices are slightly higher; demand is focused on the West Coast. Growers are shipping from the Salinas Valley and Santa Maria, California areas. Sizes are mostly 24-count jumbo and 36-count medium. Michigan will start in mid-July. Quality is excellent with minimal disease and some pith in a few lots.',
+                    colorClass: 'bg-lime-100',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐⭐', qualityValue: 5,
+                    supplySymbol: '▆', supplyValue: 4
+                },
+                {
+                    id: '14',
+                    title: 'Cantaloupe',
+                    details: 'Prices are slightly elevated; early supplies are limited due to inconsistent weather during growth. The California desert season is wrapping up; the San Joaquin Valley is starting this week. Smaller sizes are dominating availability: larger sizes are limited. Brix levels range from 11 to 14%.',
+                    colorClass: 'bg-yellow-200',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▃', supplyValue: 2
+                },
+                {
+                    id: '15',
+                    title: 'Chile Peppers',
+                    details: 'Prices are slightly elevated as the transition to the domestic season (Santa Maria and Bakersfield, California) begins. Supplies are ramping up; quality is good. Red Fresno and jalapeño stocks are limited.',
+                    colorClass: 'bg-red-300',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    supplySymbol: '▅', supplyValue: 3
+                },
+                {
+                    id: '16',
+                    title: 'Cucumbers',
+                    details: 'Prices are up. Weather has impacted volume in Baja and central Mexico. All sizes are available. Hurricane Flossie may bring rain to Baja later this week but isn\'t expected to make a direct hit. Supply is strong in New Jersey: Michigan supply is light. The Ohio growing region will start within a week. No weather or quality issues are expected, and overall quality is good.',
+                    colorClass: 'bg-green-200',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    supplySymbol: '▆', supplyValue: 4
+                },
+                {
+                    id: '17',
+                    title: 'Cauliflower',
+                    details: 'Prices are elevated as low yields and strong holiday demand strain West Coast supplies. Supplies are average in Salinas and Santa Maria, California but low on the East Coast. North Carolina is slow to start; Maine, New York, and New Jersey will begin in the next few weeks. Quality is good; some sizing issues and occasional insects have been reported.',
+                    colorClass: 'bg-gray-100',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    supplySymbol: '▃', supplyValue: 2
+                },
+                {
+                    id: '18',
+                    title: 'Grapes',
+                    details: 'The California season will begin in mid-July; until then, elevated markets will persist. Mexican green and red grape volume is extremely low due to storm damage; industry quality has suffered as a result. Sugar levels range from 12 to 14 brix.',
+                    colorClass: 'bg-green-200',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐', qualityValue: 2,
+                    supplySymbol: '▂', supplyValue: 1
+                },
+                {
+                    id: '19',
+                    title: 'Green Leaf',
+                    details: 'Prices are elevated; demand is strong. East Coast production is ramping up: supply is steady in Santa Maria but lower in Salinas, California. Supply from the West Coast will last through early November, while East Coast growers transition between seasons. Mexico supplies are depleted after heavy rains and hail. Overall quality is good; most fields have full heads and nice frames. Issues may include: thrip damage, internal burn, and aphid pressure.',
+                    colorClass: 'bg-green-100',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    supplySymbol: '▅', supplyValue: 3
+                },
+                {
+                    id: '20',
+                    title: 'Limes',
+                    details: 'Prices are up for smaller sizes due to rain causing fruit to size up. Supplies from Mexico and Colombia are good; 175- to 200-count fruit dominate sizing. Quality is good; some stylar, oil spotting, and light color have been reported.',
+                    colorClass: 'bg-lime-300',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    supplySymbol: '▆', supplyValue: 4
+                },
+                {
+                    id: '21',
+                    title: 'Honeydew',
+                    details: 'Prices are steady but may rise as Mexico\'s season winds down. Supplies are lighter as production transitions to California\'s San Joaquin Valley. Brix levels range from 11 to 14%.',
+                    colorClass: 'bg-yellow-200',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▃', supplyValue: 2
+                },
+                {
+                    id: '22',
+                    title: 'Onions',
+                    details: 'Onion markets are steady in New Mexico and California, except for medium yellows in California, which are up 50 cents as the crop peaks on jumbos. Washington prices are higher with storage reds finished and yellows up 25-50 cents, expected to last two to three more weeks. Supply is shifting to California and New Mexico, with minimal storage left in Washington. Quality overall is good; fresh onions may have thinner skins and shorter shelf life. Rain in New Mexico could impact markets short term.',
+                    colorClass: 'bg-amber-100',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    supplySymbol: '▅', supplyValue: 3
+                },
+                {
+                    id: '23',
+                    title: 'Iceberg',
+                    details: 'Prices are elevated with strong demand in California. Supplies are sufficient in Salinas and Santa Maria, California but lower on the East Coast and in Mexico, where rain depleted volume. Quality issues may include thrip damage, internal burn, and aphid pressure, though most fields have full, well-framed heads.',
+                    colorClass: 'bg-blue-100',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    supplySymbol: '▅', supplyValue: 3
+                },
+                {
+                    id: '24',
+                    title: 'Pears',
+                    details: 'Prices will remain elevated. Supplies are tight in Washington as the season will wrap up in three weeks. Softness and shortened shelf-life are minor issues as the season wraps up; sugar levels are approximately 13.5 Brix. California MFC Bartlett Pears will start shipping the week of July 14.',
+                    colorClass: 'bg-lime-200',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    supplySymbol: '▂', supplyValue: 1
+                },
+                {
+                    id: '25',
+                    title: 'Pineapples',
+                    details: 'Pineapple prices remain steady with good supply from Costa Rica; expect volume to diminish through the month. All sizes are available, with no weather or quality issues expected. Quality is good; Brix levels are at 13.',
+                    colorClass: 'bg-yellow-300',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▅', supplyValue: 3
+                },
+                {
+                    id: '26',
+                    title: 'Raspberries',
+                    details: 'Prices are steady. Quality is good and supplies are increasing out of Mexico. California\'s Santa Maria season is underway with strong quality. Watsonville/Salinas, California growers are harvesting this week.',
+                    colorClass: 'bg-rose-300',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▆', supplyValue: 4
+                },
+                {
+                    id: '27',
+                    title: 'Romaine',
+                    details: 'The market is elevated due to strong demand in California. Supplies are sufficient in Santa Maria, California. Volume is with lower on the East Coast, Mexico, and Salinas, California. California will supply through early November; East Coast growers are wrapping up their season until September. Mexico supplies are depleted after heavy rains and hail. Quality concerns include INSV, fringe and internal burn, and thrip damage. Crews are still meeting MFC weights after trimming.',
+                    colorClass: 'bg-green-100',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐', qualityValue: 2,
+                    supplySymbol: '▅', supplyValue: 3
+                },
+                {
+                    id: '28',
+                    title: 'Salads & Blends',
+                    details: 'Prices are steady; expect ample supply from Salinas, California through early November. Quality is excellent; arugula and spinach show 1-2% defects and romaine has 2-3% bruising and burn. Markon\'s Quality Assurance team is working with our suppliers to select the best lots, especially for RSS Chopped Romaine.',
+                    colorClass: 'bg-green-50',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '█', supplyValue: 5
+                },
+                {
+                    id: '29',
+                    title: 'Spring Mix',
+                    details: 'Prices are steady. Ample supply is expected from Salinas through early November. Quality concerns are minimal, with about 1% defects, mainly from yellowing and insect damage. The mix offers good color and blend ratios. RSS Arugula, Spinach, and Spring Mix are available.',
+                    colorClass: 'bg-green-100',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '█', supplyValue: 5
+                },
+                {
+                    id: '30',
+                    title: 'Squash',
+                    details: 'Prices are up due to strong demand. Growers are between sets in Fresno and Santa Maria, California. All sizes are available; quality is good. Cooler (mid-60s) temperatures in Santa Maria this week may slow growth. Supply is steady from New Jersey, Michigan, and Ohio. All sizes are available; overall quality is good.',
+                    colorClass: 'bg-yellow-200',
+                    priceSymbol: '$$$', priceValue: 3,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▅', supplyValue: 3
+                },
+                {
+                    id: '31',
+                    title: 'Strawberries',
+                    details: 'Prices are inching up, but supplies are meeting demand despite the Fourth of July holiday pull. The Oxnard and Santa Maria, California growing regions have passed their peak, and volume will decline, though no availability or quality issues are expected.',
+                    colorClass: 'bg-red-400',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▅', supplyValue: 3
+                },
+                {
+                    id: '32',
+                    title: 'Tree Fruit',
+                    details: 'Prices remain steady. California supply continues to meet demand. Nectarine sugar levels range from 10 to 12 Brix, peaches from 11 to 13 Brix, and plum sugars fall between 12 to 13 Brix.',
+                    colorClass: 'bg-pink-200',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▆', supplyValue: 4
+                },
+                {
+                    id: '33',
+                    title: 'Watermelon',
+                    details: 'Prices are steady with good supply in the Southeast, moving up the coast through South Carolina, North Carolina, and Georgia. All sizes are shipping; larger sizes dominate availability. Quality is very good; Brix levels are above 10.',
+                    colorClass: 'bg-green-300',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐⭐', qualityValue: 5,
+                    supplySymbol: '█', supplyValue: 5
+                },
+                // New items from the report
+                {
+                    id: '34',
+                    title: 'Zucchini',
+                    details: 'Supplies are good in Ohio and Michigan. The market is steady.',
+                    colorClass: 'bg-green-200',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▆', supplyValue: 4
+                },
+                {
+                    id: '35',
+                    title: 'Brussels Sprouts',
+                    details: 'Brussels Sprouts are now shipping out of Salinas, California. Supplies are slowly increasing and expected to improve as more fields come online this week.',
+                    colorClass: 'bg-green-300',
+                    priceSymbol: '$$', priceValue: 2,
+                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    supplySymbol: '▆', supplyValue: 4
+                }
+            ];
+
+            const gridContainer = document.getElementById('reference-items-grid');
+            const detailModal = document.getElementById('detail-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDetails = document.getElementById('modal-details');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const sortBySelect = document.getElementById('sort-by');
+
+            // Function to get the supply color class based on supplyValue
+            function getSupplyColorClass(supplyValue) {
+                switch (supplyValue) {
+                    case 5: return 'supply-color-dark-green';
+                    case 4: return 'supply-color-light-green';
+                    case 3: return 'supply-color-blue';
+                    case 2: return 'supply-color-red';
+                    case 1: return 'supply-color-yellow';
+                    default: return ''; // Fallback
+                }
+            }
+
+            // Function to create and append tiles
+            function createTiles() {
+                gridContainer.innerHTML = '';
+                referenceItems.forEach(item => {
+                    const tile = document.createElement('div');
+                    tile.className = `rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1
+                                       cursor-pointer overflow-hidden border border-gray-200 flex flex-col items-center justify-center text-center p-4 h-32
+                                       ${item.colorClass}`;
+
+                    // Get the correct supply color class
+                    const supplyColorClass = getSupplyColorClass(item.supplyValue);
+
+                    tile.innerHTML = `
+                        <h2 class="text-lg font-bold text-gray-800 leading-tight mb-1">${item.title.toUpperCase()}</h2>
+                        <div class="symbol-box">
+                            <span class="price-symbol">${item.priceSymbol}</span>
+                            <span class="quality-symbol">${item.qualitySymbol}</span>
+                            <span class="supply-symbol ${supplyColorClass}">${item.supplySymbol}</span>
+                        </div>
+                    `;
+                    tile.onclick = () => openModal(item);
+                    gridContainer.appendChild(tile);
+                });
+            }
+
+            // Function to open the modal
+            function openModal(item) {
+                modalTitle.textContent = item.title.toUpperCase();
+                modalDetails.textContent = item.details;
+                detailModal.classList.remove('hidden');
+            }
+
+            // Function to close the modal
+            function closeModal() {
+                detailModal.classList.add('hidden');
+            }
+
+            // Function to sort tiles based on selected option
+            function sortTiles() {
+                const sortOption = sortBySelect.value;
+                switch (sortOption) {
+                    case 'title-asc':
+                        referenceItems.sort((a, b) => a.title.localeCompare(b.title));
+                        break;
+                    case 'title-desc':
+                        referenceItems.sort((a, b) => b.title.localeCompare(a.title));
+                        break;
+                    case 'price-asc':
+                        referenceItems.sort((a, b) => a.priceValue - b.priceValue);
+                        break;
+                    case 'price-desc':
+                        referenceItems.sort((a, b) => b.priceValue - a.priceValue);
+                        break;
+                    case 'quality-asc':
+                        referenceItems.sort((a, b) => a.qualityValue - b.qualityValue);
+                        break;
+                    case 'quality-desc':
+                        referenceItems.sort((a, b) => b.qualityValue - a.qualityValue);
+                        break;
+                    case 'supply-asc':
+                        referenceItems.sort((a, b) => a.supplyValue - b.supplyValue);
+                        break;
+                    case 'supply-desc':
+                        referenceItems.sort((a, b) => b.supplyValue - a.supplyValue);
+                        break;
+                }
+                createTiles();
+            }
+
+            // Event listeners
+            closeModalBtn.addEventListener('click', closeModal);
+            sortBySelect.addEventListener('change', sortTiles);
+
+            // Initialize tiles and sort them by default (e.g., by title ascending)
+            document.addEventListener('DOMContentLoaded', () => {
+                createTiles();
+                // Optionally, trigger an initial sort if desired, e.g., sortTiles();
+            });
+        })();
+    </script>
+</body>
+</html>
