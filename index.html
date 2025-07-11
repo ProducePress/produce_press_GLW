@@ -35,6 +35,8 @@
             }
             .quality-symbol {
                 @apply text-yellow-500;
+                /* Added text-shadow for a thin black border effect around the stars */
+                text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
             }
         }
         @layer utilities {
@@ -248,15 +250,15 @@
                 </div>
                 <div class="flex-shrink-0 mt-4 md:mt-0 md:ml-6 flex justify-end w-full md:w-auto">
                     <img src="https://flavorthemoments.com/wp-content/uploads/2024/02/apple-fennel-slaw-1.jpg"
-                         alt="Apple & Fennel Slaw"
-                         class="w-[300px] h-[300px] object-cover rounded-xl border border-black p-2">
+                            alt="Apple & Fennel Slaw"
+                            class="w-[300px] h-[300px] object-cover rounded-xl border border-black p-2">
                 </div>
             </div>
         </div>
 
         <!-- Detailed View Modal -->
         <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden"
-             role="dialog" aria-modal="true" aria-labelledby="modal-title">
+              role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <div class="bg-white rounded-xl shadow-2xl p-8 max-w-2xl w-full mx-auto transform scale-95 opacity-0 animate-scaleIn">
                 <h2 id="modal-title" class="text-3xl font-bold text-gray-900 mb-4"></h2>
                 <p id="modal-details" class="text-gray-700 text-lg mb-6"></p>
