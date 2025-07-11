@@ -9,69 +9,60 @@
     <!-- Roboto Condensed Font -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Roboto Condensed', sans-serif;
-            background-image: url('https://live.staticflickr.com/7298/14135597212_143ac4eed2_b.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-        }
-        @keyframes scaleIn {
-            from {
-                transform: scale(0.95);
-                opacity: 0;
+        @layer base {
+            body {
+                font-family: 'Roboto Condensed', sans-serif;
+                background-image: url('https://live.staticflickr.com/7298/14135597212_143ac4eed2_b.jpg');
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;
+                background-repeat: no-repeat;
+                transition: background-position 0.5s ease-in-out;
             }
-            to {
-                transform: scale(1);
-                opacity: 1;
+            body.overflow-hidden {
+                overflow: hidden;
             }
         }
-        .animate-scaleIn {
-            animation: scaleIn 0.3s ease-out forwards;
+        @layer components {
+            .symbol-box {
+                @apply bg-gray-100 border border-gray-300 rounded-md p-1 px-2 inline-flex items-center justify-center gap-1 text-xs;
+            }
+            .legend-item {
+                @apply flex items-center mb-0.5;
+            }
+            .legend-symbol {
+                @apply text-lg mr-1 min-w-[20px] text-center;
+            }
+            .quality-symbol {
+                @apply text-yellow-500;
+            }
         }
-        .hidden {
-            display: none;
-        }
-        .symbol-box {
-            background-color: #f3f4f6; /* Light grey background */
-            border: 1px solid rgba(0, 0, 0, 0.3);
-            border-radius: 0.25rem;
-            padding: 4px 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            font-size: 0.8em;
-        }
-        .symbol-box .price-symbol {
-            color: #22c55e;
-        }
-        .symbol-box .quality-symbol {
-            color: #fbbf24;
+        @layer utilities {
+            @keyframes scaleIn {
+                from {
+                    transform: scale(0.95);
+                    opacity: 0;
+                }
+                to {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+            .animate-scaleIn {
+                animation: scaleIn 0.3s ease-out forwards;
+            }
+            .hidden {
+                display: none;
+            }
         }
         .body-content-wrapper {
-             background-color: rgba(255, 255, 255, 0.7);
-             min-height: 100vh;
-             width: 100%;
-             display: flex;
-             flex-direction: column;
-             align-items: center;
-             padding: 6px;
-        }
-        .legend-item {
+            background-color: rgba(255, 255, 255, 0.7);
+            min-height: 100vh;
+            width: 100%;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 2px;
-        }
-        .legend-symbol {
-            font-size: 1.0em;
-            margin-right: 6px;
-            min-width: 20px;
-            text-align: center;
-        }
-        .legend-section {
-            padding: 0 8px;
+            padding: 6px;
         }
         /* Mobile-specific adjustments for modal */
         @media (max-width: 640px) { /* Tailwind's 'sm' breakpoint */
@@ -264,14 +255,14 @@
         </div>
 
         <!-- Detailed View Modal -->
-        <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden"
+             role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <div class="bg-white rounded-xl shadow-2xl p-8 max-w-2xl w-full mx-auto transform scale-95 opacity-0 animate-scaleIn">
                 <h2 id="modal-title" class="text-3xl font-bold text-gray-900 mb-4"></h2>
                 <p id="modal-details" class="text-gray-700 text-lg mb-6"></p>
                 <button id="close-modal-btn" class="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg text-lg font-semibold mt-6
-                                                     hover:bg-indigo-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75">
+                                         hover:bg-indigo-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75">
                     Close
-
                 </button>
             </div>
         </div>
@@ -541,10 +532,11 @@
             function createTiles() {
                 gridContainer.innerHTML = '';
                 referenceItems.forEach(item => {
-                    const tile = document.createElement('div');
+                    // Using a <button> element for better accessibility
+                    const tile = document.createElement('button');
                     tile.className = `rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1
-                                       cursor-pointer overflow-hidden border border-gray-200 flex flex-col items-center justify-center text-center p-4 h-32
-                                       ${item.colorClass}`;
+                                         cursor-pointer overflow-hidden border border-gray-200 flex flex-col items-center justify-center text-center p-4 h-32
+                                         ${item.colorClass}`;
 
                     tile.innerHTML = `
                         <h2 class="text-lg font-bold text-gray-800 leading-tight mb-1">${item.title.toUpperCase()}</h2>
@@ -562,11 +554,15 @@
                 modalTitle.textContent = item.title.toUpperCase();
                 modalDetails.textContent = item.details;
                 detailModal.classList.remove('hidden');
+                // Add overflow-hidden to the body to prevent background scrolling
+                document.body.classList.add('overflow-hidden');
             }
 
             // Function to close the modal
             function closeModal() {
                 detailModal.classList.add('hidden');
+                // Remove overflow-hidden from the body
+                document.body.classList.remove('overflow-hidden');
             }
 
             // Function to sort tiles based on selected option
@@ -592,6 +588,20 @@
             // Event listeners
             closeModalBtn.addEventListener('click', closeModal);
             sortBySelect.addEventListener('change', sortTiles);
+            
+            // Close modal when clicking outside the content box
+            detailModal.addEventListener('click', (event) => {
+                if (event.target === detailModal) {
+                    closeModal();
+                }
+            });
+            
+            // Close modal when the Escape key is pressed
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && !detailModal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
 
             // Initialize tiles and sort them by default (e.g., by title ascending)
             document.addEventListener('DOMContentLoaded', () => {
