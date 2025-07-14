@@ -87,18 +87,18 @@
             <div class="mb-4 sm:mb-0 sm:mr-4 flex-shrink-0">
                 <label for="sort-by" class="block text-gray-700 text-sm font-bold mb-2">Sort By:</label>
                 <select id="sort-by" class="block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-300">
-                    <option value="title-asc">Title (A-Z)</option>
+                    <option value="title-asc" selected>Title (A-Z)</option>
                     <option value="title-desc">Title (Z-A)</option>
-                    <option value="quality-asc">Consensus (Low to High)</option>
-                    <option value="quality-desc">Consensus (High to Low)</option>
+                    <option value="quality-asc">Rating (Low to High)</option>
+                    <option value="quality-desc">Rating (High to Low)</option>
                 </select>
             </div>
 
             <!-- Symbol Legend -->
             <div class="flex flex-grow justify-start items-start text-gray-700 text-sm w-full sm:w-auto">
-                <!-- Consensus Legend Section (Two Columns) -->
+                <!-- Rating Legend Section (Two Columns) -->
                 <div class="legend-section flex-shrink-0 mr-4">
-                    <h3 class="font-bold mb-1">Consensus:</h3>
+                    <h3 class="font-bold mb-1">Rating:</h3>
                     <div class="grid grid-cols-2 gap-x-2">
                         <div class="legend-item"><span class="legend-symbol quality-symbol">⭐⭐⭐⭐⭐</span>Excellent</div>
                         <div class="legend-item"><span class="legend-symbol quality-symbol">⭐⭐⭐⭐</span>Very Good</div>
@@ -250,20 +250,20 @@
                 </div>
                 <div class="flex-shrink-0 mt-4 md:mt-0 md:ml-6 flex justify-end w-full md:w-auto">
                     <img src="https://flavorthemoments.com/wp-content/uploads/2024/02/apple-fennel-slaw-1.jpg"
-                            alt="Apple & Fennel Slaw"
-                            class="w-[300px] h-[300px] object-cover rounded-xl border border-black p-2">
+                         alt="Apple & Fennel Slaw"
+                         class="w-[300px] h-[300px] object-cover rounded-xl border border-black p-2">
                 </div>
             </div>
         </div>
 
         <!-- Detailed View Modal -->
         <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden"
-              role="dialog" aria-modal="true" aria-labelledby="modal-title">
+             role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <div class="bg-white rounded-xl shadow-2xl p-8 max-w-2xl w-full mx-auto transform scale-95 opacity-0 animate-scaleIn">
                 <h2 id="modal-title" class="text-3xl font-bold text-gray-900 mb-4"></h2>
                 <p id="modal-details" class="text-gray-700 text-lg mb-6"></p>
                 <button id="close-modal-btn" class="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg text-lg font-semibold mt-6
-                                         hover:bg-indigo-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75">
+                                                     hover:bg-indigo-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75">
                     Close
                 </button>
             </div>
@@ -271,9 +271,7 @@
     </div>
 
     <script>
-        // Wrap the script content in an IIFE to prevent global variable re-declaration issues
         (function() {
-            // Data for the reference sheet items, updated from Markon Fresh Crop Report (July 13, 2025)
             const referenceItems = [
                 {
                     id: '1',
@@ -534,11 +532,10 @@
             function createTiles() {
                 gridContainer.innerHTML = '';
                 referenceItems.forEach(item => {
-                    // Using a <button> element for better accessibility
-                    const tile = document.createElement('button');
+                    const tile = document.createElement('div');
                     tile.className = `rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1
-                                         cursor-pointer overflow-hidden border border-gray-200 flex flex-col items-center justify-center text-center p-4 h-32
-                                         ${item.colorClass}`;
+                                       cursor-pointer overflow-hidden border border-gray-200 flex flex-col items-center justify-center text-center p-4 h-32
+                                       ${item.colorClass}`;
 
                     tile.innerHTML = `
                         <h2 class="text-lg font-bold text-gray-800 leading-tight mb-1">${item.title.toUpperCase()}</h2>
@@ -607,7 +604,7 @@
 
             // Initialize tiles and sort them by default (e.g., by title ascending)
             document.addEventListener('DOMContentLoaded', () => {
-                createTiles();
+                sortTiles(); // Call sortTiles to apply default A-Z sorting
             });
         })();
     </script>
