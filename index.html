@@ -27,17 +27,6 @@
             .symbol-box {
                 @apply bg-gray-100 border border-gray-300 rounded-md p-1 px-2 inline-flex items-center justify-center gap-1 text-xs;
             }
-            .legend-item {
-                @apply flex items-center mb-0.5;
-            }
-            .legend-symbol {
-                @apply text-lg mr-1 min-w-[20px] text-center;
-            }
-            .quality-symbol {
-                @apply text-yellow-500;
-                /* Added text-shadow for a thin black border effect around the stars */
-                text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
-            }
         }
         @layer utilities {
             @keyframes scaleIn {
@@ -81,37 +70,9 @@
 </head>
 <body class="min-h-screen flex flex-col items-center antialiased">
     <div class="body-content-wrapper">
-        <!-- Sorting and Legend Container -->
-        <div class="flex flex-col sm:flex-row justify-start items-center mb-8 p-2 bg-slate-200 rounded-xl shadow-md border border-gray-200 mx-auto max-w-xl">
-            <!-- Sorting Dropdown -->
-            <div class="mb-4 sm:mb-0 sm:mr-4 flex-shrink-0">
-                <label for="sort-by" class="block text-gray-700 text-sm font-bold mb-2">Sort By:</label>
-                <select id="sort-by" class="block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-300">
-                    <option value="title-asc" selected>Title (A-Z)</option>
-                    <option value="title-desc">Title (Z-A)</option>
-                    <option value="quality-asc">Rating (Low to High)</option>
-                    <option value="quality-desc">Rating (High to Low)</option>
-                </select>
-            </div>
-
-            <!-- Symbol Legend -->
-            <div class="flex flex-grow justify-start items-start text-gray-700 text-sm w-full sm:w-auto">
-                <!-- Rating Legend Section (Two Columns) -->
-                <div class="legend-section flex-shrink-0 mr-4">
-                    <h3 class="font-bold mb-1">Rating:</h3>
-                    <div class="grid grid-cols-2 gap-x-2">
-                        <div class="legend-item"><span class="legend-symbol quality-symbol">⭐⭐⭐⭐⭐</span>Excellent</div>
-                        <div class="legend-item"><span class="legend-symbol quality-symbol">⭐⭐⭐⭐</span>Very Good</div>
-                        <div class="legend-item"><span class="legend-symbol quality-symbol">⭐⭐⭐</span>Good</div>
-                        <div class="legend-item"><span class="legend-symbol quality-symbol">⭐⭐</span>Fair</div>
-                        <div class="legend-item"><span class="legend-symbol quality-symbol">⭐</span>Low</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        
         <!-- Contact Information -->
-        <p class="text-lg text-gray-800 mb-2 text-center">
+        <p class="text-lg text-gray-800 mb-2 text-center mt-6">
             Contact Your Specialist: <a href="mailto:greg.hale@gfs.com" class="text-gray-900 hover:underline">Greg Hale (North)</a> | <a href="mailto:tracy.ballard@gfs.com" class="text-gray-900 hover:underline">Tracy Ballard (South)</a>
         </p>
 
@@ -131,70 +92,13 @@
                 State of The Market
             </h2>
             <p class="text-gray-800 text-lg">
-                This week's produce market is characterized by several regional transitions and lingering weather impacts, influencing supply and pricing across various commodities.
+                This week's produce market is in a state of transition, with a mix of easing and elevated prices. Weather continues to be a factor, particularly in key growing regions, while new seasons are ramping up.
                 <br><br>
-                <strong>Weather Impacts:</strong> Tropical Depression Chantal, which made landfall on July 6, caused minimal damage but brought 2-4 inches of rain to Central and Eastern North Carolina, leading to expected harvesting and fruit maturity delays. This has contributed to limited green bell pepper supplies on the East Coast and lower volumes for some produce from Mexico due to heavy rains and hail. Hurricane Flossie is also mentioned as a potential rain bringer to Baja later this week, though a direct hit is not expected. Cooler temperatures in Santa Maria, California, may slow squash growth.
+                **Market Conditions:** Overall, markets are easing as the industry moves into September, with some exceptions. Prices for broccoli, oranges, and limes are elevated, while markets for lemons, iceberg lettuce, and chile peppers are inching down as supplies increase. Cantaloupe, celery, cucumbers, grapes, and honeydew markets are stable or low due to ample supply.
                 <br><br>
-                <strong>Transitioning Regions:</strong> The industry is actively transitioning between growing regions. Mexican grape supplies are winding down as California-grown fruit is expected to begin next week. Cantaloupe and honeydew production is shifting from California's Imperial Valley to the San Joaquin Valley. Onions are moving from Washington's storage season to fresh runs in Northern California and and New Mexico. Michigan's asparagus season is wrapping up, with Central Mexico set to dominate summer supply. California Bartletts will begin shipping around July 14, as Washington's D'Anjou pear storage crop nears its end.
+                **Regional Transitions:** The Northwest onion season is off to a strong start, with Washington, Oregon, and Idaho harvests in full swing. Colorado and Utah are also ramping up. In contrast, New Mexico is winding down its season. The California grape season is at its peak, while pear growers are transitioning to new crop Bartletts from Washington.
                 <br><br>
-                <strong>Market Conditions:</strong> Overall, prices are elevated for several items due to tight supplies and strong demand, including lemons, broccoli, bell peppers, chile peppers, cucumbers, cauliflower, grapes, green leaf lettuce, limes, iceberg lettuce, and pineapples. Conversely, asparagus and red/yellow potato prices are lower or steady due to strong supplies. Quality remains generally good across most commodities, though some issues like pressure bruising in potatoes, purple cast in broccoli, and scarring in tomatoes have been noted. Strawberry and raspberry markets are steady with good quality, despite strawberries being past their peak in some California regions.
-                <br><br>
-                <strong>Green Leaf, Iceberg, and Romaine Lettuce:</strong>
-                <ul class="list-disc list-inside ml-4">
-                    <li>Green leaf and romaine prices are fairly steady at moderately elevated levels, while iceberg continues rising at elevated market levels, due to continued strong demand in Salinas and Santa Maria, California.</li>
-                    <li>MFC Premium Green Leaf, Iceberg, and Romaine are available; Markon Best Available (MBA) is being substituted when needed due to light weights.</li>
-                    <li>Overall quality is good; fluctuating densities, insect pressure, and internal burn are present in some lots.</li>
-                    <li>MFC Iceberg weights are in the mid-to upper 40 lbs., West Coast packer label ranges from mid-30 to mid-40 lbs.</li>
-                    <li>Guanajuato, Mexico, supplies continue to be less than normal following a hailstorm and ongoing rains, prompting processors and fresh market buyers to shift demand from Mexico to California.</li>
-                    <li>Elevated markets are expected to continue through mid-July, at minimum.</li>
-                </ul>
-            </p>
-        </div>
-
-        <!-- The More You Know Section -->
-        <div class="w-full max-w-6xl mt-8 p-6 rounded-xl border border-black" style="background-color: rgba(255, 192, 203, 0.5);">
-            <h2 class="text-5xl font-extrabold text-gray-900 mb-4 text-center leading-tight">
-                The More You Know
-            </h2>
-            <p class="text-gray-800 text-lg">
-                <strong>Picking the Perfect Watermelon: Your Guide to Sweet Summer Slices</strong>
-                <br><br>
-                Watermelon is a quintessential summer fruit, known for its refreshing sweetness and hydrating properties. But how do you pick a truly ripe and juicy one from the bunch? While it might seem like a guessing game, there are several key indicators that can help you select the perfect watermelon every time.
-                <br><br>
-                <ol class="list-decimal list-inside ml-4">
-                    <li>
-                        <strong>The Field Spot (or Ground Spot)</strong><br>
-                        This is perhaps the most reliable sign of ripeness. Look for a large, creamy yellow or even orange-yellow patch on the underside of the watermelon. This spot is where the melon rested on the ground and ripened in the sun [1]. A white or pale green spot indicates that the watermelon was picked too early and isn't as ripe [2].
-                    </li>
-                    <li>
-                        <strong>Dull, Not Shiny, Skin</strong><br>
-                        A ripe watermelon will have a dull, matte appearance. If the skin is shiny, it's likely underripe. As the watermelon matures, its natural waxy coating develops, giving it a less reflective finish [3].
-                    </li>
-                    <li>
-                        <strong>Heavy for its Size</strong><br>
-                        Pick up a few watermelons of similar size. The one that feels heaviest for its size is usually the juiciest and most ripe [1]. Watermelons are over 90% water, so a heavier melon indicates higher water content and thus more juiciness [4].
-                    </li>
-                    <li>
-                        <strong>The "Thump" Test"</strong><br>
-                        While some experts debate its reliability, many people swear by the thump test. Gently tap the watermelon with your knuckles. A ripe watermelon should produce a deep, hollow sound, almost like a drum [2]. An unripe melon will sound higher-pitched or metallic, while an overripe one might sound dull or flat [1]. This takes practice to discern, so combine it with other indicators.
-                    </li>
-                    <li>
-                        <strong>Webbing and Sugar Spots</strong><br>
-                        Look for brown, coarse, web-like lines or small black dots on the rind. These are sometimes called "sugar spots" or "pollination scars" and indicate that the watermelon is full of sugar and sweetness [3].
-                    </li>
-                    <li>
-                        <strong>Check the Tendril (if present)</strong><br>
-                        If you're picking from a vine, the tendril (the curly "pigtail" nearest where the melon was attached to the vine) is a good indicator. If it's brown and dried up, the watermelon is likely ripe. If it's still green, it's probably not ready [2].
-                    </li>
-                </ol>
-                <br>
-                By using a combination of these tips, you'll significantly increase your chances of bringing home a perfectly sweet and juicy watermelon.
-                <br><br>
-                <strong>Sources</strong><br>
-                [1] "How to Pick a Ripe Watermelon." The Old Farmer's Almanac, www.almanac.com/how-pick-ripe-watermelon. Accessed 9 July 2025.<br>
-                [2] "How to Pick a Good Watermelon Every Time." Food Network, www.foodnetwork.com/how-to/articles/how-to-pick-a-good-watermelon. Accessed 9 July 2025.<br>
-                [3] "How to Pick a Ripe Watermelon, According to Experts." Better Homes & Gardens, www.bhg.com/recipes/how-to/cooking-basics/how-to-pick-a-watermelon/. Accessed 9 July 2025.<br>
-                [4] "Watermelon: Health Benefits, Nutrients, Preparation, and More." Medical News Today, www.medicalnewstoday.com/articles/266886. Accessed 9 July 2025.
+                **Supply and Quality:** While many supplies are ample, some items are seeing reduced yields due to scattered showers and quality issues. For instance, broccoli is facing challenges with hollow core and insect damage, while limes are showing stylar and oil spotting. However, most commodities, including cauliflower, celery, and grapes, are reporting very good to excellent quality. Strawberry and raspberry supplies are good with quality remaining strong.
             </p>
         </div>
 
@@ -207,51 +111,36 @@
                 <div class="flex-1">
                     <p class="text-gray-800 text-lg">
                         <br>
-                        <strong>Apple & Fennel Slaw with Maple-Dijon Dressing</strong>
+                        <strong>Grilled Fennel, Corn, and Orange Butter Lettuce Salad with 'Swicy' Tamarind-Lime Dressing</strong>
                         <br><br>
-                        A refreshing and crunchy slaw offering a crisp alternative to traditional coleslaw, with a sweet and tangy dressing.
+                        This salad combines smoky, charred flavors with hints of sweetness and plenty of crunch—summer on a plate!
                         <br><br>
                         <strong>Ingredients:</strong>
                         <ul class="list-disc list-inside ml-4">
-                            <li>3 large Green Apples (e.g., Granny Smith), cored and julienned (GFS# 455173)</li>
-                            <li>2 medium Fennel Bulbs, trimmed and thinly sliced (GFS# 649451) (fronds reserved for garnish, if desired)</li>
-                            <li>1/2 small Red Onion, very thinly sliced (GFS# 596973)</li>
-                            <li>1/4 cup Fresh Parsley, chopped (GFS# 272396)</li>
-                        </ul>
-                        <br>
-                        <strong>Maple-Dijon Dressing:</strong>
-                        <ul class="list-disc list-inside ml-4">
-                            <li>1/4 cup Extra Virgin Olive Oil (GFS# 432050)</li>
-                            <li>3 tbsp Apple Cider Vinegar (GFS# 430795)</li>
-                            <li>2 tbsp Maple Syrup (GFS# 258110)</li>
-                            <li>1 tbsp Dijon Mustard (GFS# 455715)</li>
-                            <li>Salt and Black Pepper, to taste</li>
+                            <li>2 heads Markon First Crop (MFC) Butter Lettuce</li>
+                            <li>4 cobs MFC Corn</li>
+                            <li>2 MFC Oranges, peeled and cut into rounds</li>
+                            <li>1 MFC Fennel bulb, thinly sliced</li>
+                            <li>1 tbsp. vegetable oil</li>
+                            <li>1/4 cup MFC Red Onion, sliced</li>
+                            <li>3 tbsp. tamarind paste</li>
+                            <li>1 tbsp. lime juice</li>
+                            <li>2 tbsp. honey</li>
+                            <li>1/2 tsp. cayenne pepper</li>
+                            <li>1/4 tsp. kosher salt</li>
                         </ul>
                         <br>
                         <strong>Instructions:</strong>
                         <ol class="list-decimal list-inside ml-4">
-                            <li>
-                                Julienne the green apples and fennel bulb (use a mandoline if available for best results).
-                            </li>
-                            <li>
-                                Thinly slice red onion and chop fresh parsley.
-                            </li>
-                            <li>
-                                Whisk together olive oil, apple cider vinegar, maple syrup, and Dijon mustard for the dressing. Season with salt and pepper.
-                            </li>
-                            <li>
-                                In a large bowl, combine sliced apples, fennel, red onion, and parsley. Toss with the dressing until well coated.
-                            </li>
-                            <li>
-                                Chill for at least 30 minutes before serving to allow flavors to meld. Garnish with fennel fronds if desired.
-                            </li>
+                            <li>To make the dressing, combine tamarind paste, lime juice, honey, cayenne pepper, and salt in a small bowl. Whisk until well combined. Set aside.</li>
+                            <li>Grill corn and fennel, with a little oil, for about 5 minutes or until charred and tender.</li>
+                            <li>Carefully remove kernels from the corn cobs and slice the fennel.</li>
+                            <li>Arrange butter lettuce leaves on a platter. Top with grilled corn kernels, sliced fennel, orange rounds, and red onion. Drizzle with the swicy tamarind-lime dressing and serve.</li>
                         </ol>
                     </p>
                 </div>
-                <div class="flex-shrink-0 mt-4 md:mt-0 md:ml-6 flex justify-end w-full md:w-auto">
-                    <img src="https://flavorthemoments.com/wp-content/uploads/2024/02/apple-fennel-slaw-1.jpg"
-                         alt="Apple & Fennel Slaw"
-                         class="w-[300px] h-[300px] object-cover rounded-xl border border-black p-2">
+                <div class="w-full md:w-1/2 flex-shrink-0">
+                    <img src="https://assets.bonappetit.com/photos/594806fbd100ab6f2b218abb/1:1/w_1920,c_limit/grilled-fennel.jpg" alt="A salad with grilled fennel, corn, and orange slices." class="w-full h-auto rounded-lg shadow-md">
                 </div>
             </div>
         </div>
@@ -275,250 +164,235 @@
             const referenceItems = [
                 {
                     id: '1',
-                    title: 'Red and Yellow Potatoes',
-                    details: 'The market is steady. Texas prices are lower as supplies improve. Storage supply levels are good across all regions. The Florida and Texas season is expected to finish by the end of July, with Minnesota starting in late July and Wisconsin beginning in the first week of August. Some light color and blemishes have been noted on the late storage crop from Idaho, but quality remains strong. MFC and ESS Red and Yellow potatoes are available.',
-                    colorClass: 'bg-amber-200',
-                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    title: 'Apples',
+                    details: 'Prices are unchanged. The Michigan season is winding down for the summer. New crop harvesting will start in Michigan and Washington in late August, and stagger depending on variety through November. Washington MFC Gala, Golden Delicious, Granny Smith, Fuji, and Red Delicious Apples are on the market. Quality is good; late storage softness and bruising are occasional issues.'
+,
+                    colorClass: 'bg-red-200',
                 },
                 {
                     id: '2',
-                    title: 'Lemons',
-                    details: 'Supplies from California\'s District Two (West Coast) are slightly lower; prices are up. Sizing is dominated by 115-to 140-count fruit; smaller sizes (165- to 200-count) remain limited. The season will transition to Mexico in about two weeks. MFC and ESS Lemons are available.',
-                    colorClass: 'bg-yellow-300',
-                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    title: 'Asparagus',
+                    details: 'The market is elevated, particularly for jumbo and large sizes. Peak production has passed in Central Mexico and Baja; growers are breaking into new, immature lots to meet demand, increasing small-size supplies. Peruvian volume is low. MFC Asparagus is available.'
+,
+                    colorClass: 'bg-emerald-200',
                 },
                 {
                     id: '3',
-                    title: 'Broccoli',
-                    details: 'The market is elevated. West Coast fields are facing higher pest pressure and lower acreage while the East Coast is facing weather delays. West Coast supplies are decreasing: Central Mexico is light from rain. North Carolina and Georgia are finishing this month; Midwest and Northeast regions start early July. Some branching and insect issues, but minimal pin rot or yellowing have been reported. MFC Broccoli Crowns are available.',
-                    colorClass: 'bg-green-400',
-                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    title: 'Avocados',
+                    details: 'Prices are level. Mexican yields are average; large sizes are tightening. Quality is very good: checkerboarding is an occasional problem. RSS Avocado Chunks, Halves, Pico de Gallo Guacamole, and Pure Pulp are available.'
+,
+                    colorClass: 'bg-green-300',
                 },
                 {
                     id: '4',
-                    title: 'Tomatoes',
-                    details: 'Markets are a bit higher on the West Coast; pricing is steady on the East Coast. Round and Roma tomatoes are available from both Mexico and California. California has had strong volume; quality is average, with some scarring and color issues. Mexico\'s Eastern and Central regions have moderate volumes and decent quality. Baja volume has dipped slightly as growers finish their season. Supplies are adequate in Alabama and western North Carolina. Tennessee is just starting production; supplies is light. Overall quality is good. MFC Tomatoes are available.',
-                    colorClass: 'bg-red-300',
-                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    title: 'Bell Peppers',
+                    details: 'Green bell supplies are abundant in multiple growing regions; markets are weak. Red bell pepper volume is low due to harvesting transitions in California; prices are elevated. MFC and ESS Green and Red Bell Peppers are available.'
+,
+                    colorClass: 'bg-lime-200',
                 },
                 {
                     id: '5',
-                    title: 'Oranges',
-                    details: 'Prices are rising. Supplies of California Valencias remain good, with dominant sizes in the 88- to 113-count range; smaller (138-count) fruit is limited. MFC and ESS Oranges are available.',
-                    colorClass: 'bg-orange-300',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Blackberries',
+                    details: 'The Pacific Northwest blackberry season has begun; quality is excellent. Mexican supplies have begun to rebound from recent humidity. Quality is improving; the rainy season is coming to an end. California growers have begun shipping from the Watsonville/Salinas region. Expect markets to ease.'
+,
+                    colorClass: 'bg-purple-300',
                 },
                 {
                     id: '6',
-                    title: 'Asparagus',
-                    details: 'Prices are lower. Supplies are strong from Baja; Central Mexico is limited by rain, and Peru is tapering. Michigan wraps this week; Central Mexico will dominate summer supply. Standard and large sizes are readily available; jumbo and extra-large are limited. Overall quality remains good. MFC Asparagus is on the market.',
-                    colorClass: 'bg-emerald-200',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Blueberries',
+                    details: 'Prices are steady. Although supplies are diminishing in California\'s San Joaquin Valley, ample stocks are now shipping from Eastern Washington and Hermiston, Oregon. Peruvian growers will begin shipments soon. Quality is very good.'
+,
+                    colorClass: 'bg-indigo-300',
                 },
                 {
                     id: '7',
-                    title: 'Apples',
-                    details: 'Markets are steady. Storage supplies remain good in Washington. Michigan is only shipping Fuji apples; new crop harvesting will start in late summer. Washington MFC Gala, Golden Delicious, Granny Smith, Fuji, and Red Delicious Apples are available. Quality is very good.',
-                    colorClass: 'bg-red-200',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Broccoli',
+                    details: 'Markets are poised to inch higher through August as elevated levels of pin rot, yellowing, and systemic mildew lower yields in California crops. East Coast supplies are shipping from multiple regions. Prices have eased in Mexico; demand has fallen. MFC Broccoli Crowns are available.'
+,
+                    colorClass: 'bg-green-400',
                 },
                 {
                     id: '8',
-                    title: 'Bell Peppers (Green/Red)',
-                    details: 'West Coast green bell pepper prices are steady with good supply from Bakersfield, while red prices are up due to a tight transition from the Imperial Valley. Fresno will begin green bells in the coming weeks; recent hot weather has caused some red color issues, but green quality remains strong. East Coast prices are up due to light green supply in North Carolina and a slow start in New Jersey, along with limited red supply. Michigan and Ohio will start in about two weeks. Overall quality remains good.',
-                    colorClass: 'bg-lime-200',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Cantaloupe',
+                    details: 'Prices are low. Production is at its peak in California\'s San Joaquin Valley. Quality is excellent; flavor is sweet, sugar levels are elevated, ranging from 14-16% Brix. MFC Cantaloupe Melons are available.'
+,
+                    colorClass: 'bg-yellow-200',
                 },
                 {
                     id: '9',
-                    title: 'Blackberries',
-                    details: 'The market is stable. Volume is ample in California\'s Central Valley and West Coast. Mexican supplies have improved, and overall quality is good.',
-                    colorClass: 'bg-purple-300',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Cauliflower',
+                    details: 'The market is near the bottom; stocks are plentiful out of California\'s Salinas Valley and Santa Maria, as well as Maine, Canada, North Carolina, New Jersey. and New York. Overall color and texture are excellent. ESS Cauliflower is available.'
+,
+                    colorClass: 'bg-gray-100',
                 },
                 {
                     id: '10',
-                    title: 'Avocados',
-                    details: 'Prices are level and supplies are adequate. The loca-style crop (typically known for lower oil content) is still being harvested. Supplies are strong in California and Peru. RSS Avocado Chunks, Halves, Pico de Gallo Guacamole, and Pure Pulp are available.',
-                    colorClass: 'bg-green-300',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Celery',
+                    details: 'Prices are unchanged; abundant stocks are shipping from the Salinas Valley and Santa Maria, California. Yields are increasing in Michigan; the season will run through October. Quality is excellent. MFC Celery is available.'
+,
+                    colorClass: 'bg-lime-100',
                 },
                 {
                     id: '11',
-                    title: 'Blueberries',
-                    details: 'The market remains stable, with ample supplies available from the West Coast, Eastern Washington, and Hermiston, Oregon. Overall quality is reported as good.',
-                    colorClass: 'bg-indigo-300',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Chile Peppers',
+                    details: 'Most chile pepper markets are inching down; Serrano prices are actually up, but should ease back down in a week or two when the season is in full swing. Quality is very good; no significant issues are being reported. MFC Anaheim, Habanero, Jalapeno, Pasilla, Red Fresno, and Serrano Chile Peppers are available.'
+,
+                    colorClass: 'bg-red-300',
+                },
+                {
+                    id: '12',
+                    title: 'Cucumbers',
+                    details: 'West Coast prices are weak; yields are high out of Mexico\'s Baja growing region. Midwestern supplies are ample, but rain may hinder harvests in Michigan this week. Quality is very good; texture is firm and color is deep green. MFC and ESS Cucumbers are available.'
+,
+                    colorClass: 'bg-green-200',
                 },
                 {
                     id: '13',
-                    title: 'Celery',
-                    details: 'Prices are slightly higher as demand currently focuses on the Salinas, California region, where supplies are ramping up. Michigan production is expected to begin in mid-July. Oxnard supplies have finished, and Santa Maria remains steady. The size profile is balanced between 24-count jumbo and 36-count medium celery. Overall quality is excellent, although minimal disease pressure and some pith have been noted in a few lots. MFC Celery is on the market.',
-                    colorClass: 'bg-lime-100',
-                    qualitySymbol: '⭐⭐⭐⭐⭐', qualityValue: 5,
+                    title: 'Grapes',
+                    details: 'The market is low. California grape harvesting is in peak production; the season will run through November. Quality is very good; sugar levels range from 13 to 16 Brix. MFC and ESS Green and Red Seedless Grapes as well as MFC Lunch Bunch Grapes are available.'
+,
+                    colorClass: 'bg-green-200',
                 },
                 {
                     id: '14',
-                    title: 'Cantaloupe',
-                    details: 'Prices are steady during the transition from California\'s Imperial Valley to San Joaquin Valley. Desert production is done; the San Joaquin Valley is just starting. Supplies are mainly 9-count fruit, with limited 12-count and smaller. Brix levels are good at 12-13%. MFC Cantaloupe is available.',
-                    colorClass: 'bg-yellow-200',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Green Leaf',
+                    details: 'Prices are rising; supplies are forecast to dip in the coming weeks. Quality is very good; weights and densities are ideal. MFC Premium Green Leaf is available.'
+,
+                    colorClass: 'bg-green-100',
                 },
                 {
                     id: '15',
-                    title: 'Chile Peppers',
-                    details: 'Tomatillo, serrano, and jalapeño markets are stable; habanero, Anaheim, pasilla, and yellow remain higher until Santa Maria ramps up (starting late July). Baja and Chihuahua have light supplies with some quality issues due to rain. South Texas harvests are delayed by rain but expected to improve soon. Overall supplies are tight, with quality challenges on some varieties. MFC Habanero, Jalapeño, Pasilla, Red Fresno, and Serrano Chile Peppers are available.',
-                    colorClass: 'bg-red-300',
-                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    title: 'Honeydew',
+                    details: 'Markets are low. Production is at its peak in California\'s San Joaquin Valley. Quality is excellent; flavor is sweet, sugar levels are elevated, ranging from 14-16% Brix. MFC Honeydew Melons are available.'
+,
+                    colorClass: 'bg-yellow-200',
                 },
                 {
                     id: '16',
-                    title: 'Cucumbers',
-                    details: 'Prices are slightly elevated. On the West Coast, the best quality is coming from Baja; 24-count prices are steady. Central Mexico also has volume, but recent weather has impacted quality, causing more misshapen and scarred product to be graded out. Supplies are good in New Jersey, while Virginia and Michigan have light volume. Ohio is set to start harvesting this weekend. Quality is good.',
-                    colorClass: 'bg-green-200',
-                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    title: 'Iceberg',
+                    details: 'Price volatility persists. After declining last week, markets are expected to rebound this week as growers anticipate lower yields in upcoming lots. MFC Premium Iceberg Lettuce is sporadic; MBA will be shipped when heads don\'t meet Markon specifications.'
+,
+                    colorClass: 'bg-blue-100',
                 },
                 {
                     id: '17',
-                    title: 'Cauliflower',
-                    details: 'The market is falling as demand softens and supplies increase. Good volume is coming out of Salinas and Santa Maria, California. The East Coast is ramping up slowly. Weather is warm but variable. Possible minor issues include yellowing, sizing inconsistency, and insect pressure, especially in the East. Overall quality remains strong. ESS Cauliflower is available.',
-                    colorClass: 'bg-gray-100',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Idaho Potatoes',
+                    details: 'Fresh-run Norkotah potatoes are on the market out of Idaho and Washington. Expect elevated markets for large sizes (40- through 90-count supplies) until new crop supplies increase. As the industry transitions from storage to new crop potatoes, advanced orders and tight inventories are highly recommended. Quality is very good. MFC Potatoes are available.'
+,
+                    colorClass: 'bg-amber-100',
                 },
                 {
                     id: '18',
-                    title: 'Grapes',
-                    details: 'Prices are steady. Supplies from Mexico remain good as the season wraps up. The industry is transitioning to California fruit, expected to begin by the end of next week. Sugar levels range from 12 to 14 Brix. MFC and ESS Lunch Bunch, Green, and Red Seedless Grapes are available.',
-                    colorClass: 'bg-green-200',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Lemons',
+                    details: 'Elevated markets are forecast for the next six weeks. Small sizes (165- through 235-count fruit) are limited. MFC and ESS Lemons are available.'
+,
+                    colorClass: 'bg-yellow-300',
                 },
                 {
                     id: '19',
-                    title: 'Green Leaf',
-                    details: 'Prices are elevated due to strong California demand. Supply is steady in Salinas and Santa Maria, California, but lower on the East Coast and Mexico, where rains have reduced availability. Salinas and Santa Maria will continue through early November, while East Coast growers finish and restart in September or ramp up for summer. Quality concerns include INSV, dirt, aphids, and thrips, but most fields have full heads with good frames. MFC Green Leaf is available.',
-                    colorClass: 'bg-green-100',
-                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    title: 'Limes',
+                    details: 'Prices are elevated across all sizes; supplies are tightening. Rain continues to be in the forecast and will likely persist through August, disrupting production. MFC and ESS Limes are available.'
+,
+                    colorClass: 'bg-lime-300',
                 },
                 {
                     id: '20',
-                    title: 'Limes',
-                    details: 'Supplies are good from Mexico and Colombia. Prices are up on smaller sizes (230- to 250-count) as rain is causing fruit to size up. Smaller sizes are limited; 110- to 150-count supplies are improving. Rain is causing quality concerns like stylar and oil spotting, and lighter color. Overall quality remains good. MFC Limes are available.',
-                    colorClass: 'bg-lime-300',
-                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    title: 'Onions',
+                    details: 'The Northwest onion season is fully underway; markets will ease as more supplies enter the market. The California season has ended; New Mexico stocks will run another two weeks. Quality is great. MFC and ESS Red and Yellow Onions are available.'
+,
+                    colorClass: 'bg-amber-100',
                 },
                 {
                     id: '21',
-                    title: 'Honeydew',
-                    details: 'The market remains steady as production transitions from the Imperial Valley to San Joaquin Valley. Supplies are strong; 5-count melons dominated availability while 6-count and smaller are limited Occasional sunburn and wind scar has been reported; good brix (12-13%) and internal color. MFC Honeydew is on the market.',
-                    colorClass: 'bg-yellow-200',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Oranges',
+                    details: 'Strong school demand is driving up prices, especially for small sizes. California Valencia stocks are average. Quality is excellent. Initial reports project California Navels will begin shipping in mid- to late October. MFC and ESS Valencia Oranges are available.'
+,
+                    colorClass: 'bg-orange-300',
                 },
                 {
                     id: '22',
-                    title: 'Onions',
-                    details: 'Prices are steady in California and slightly higher in New Mexico and Washington due to rain disruptions, tighter supplies, and winding down storage stocks. Washington storage is nearly exhausted. The new Washington/Oregon crop starts in late July to early August. Potential quality concerns include thin skins and possible mechanical damage in California and New Mexico, though no major issues reported. MFC Red and Yellow Onions are on the market.',
-                    colorClass: 'bg-amber-100',
-                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    title: 'Pears',
+                    details: 'The market is fairly level. New crop Bartletts are now shipping from Washington. California supplies are ample. Both seasons will continue through October. Quality is excellent. MFC Bartlett Pears are available.'
+,
+                    colorClass: 'bg-lime-200',
                 },
                 {
                     id: '23',
-                    title: 'Iceberg',
-                    details: 'Prices are extremely high due to strong California demand. Supply is steady in Salinas and Santa Maria, California, but lower on the East Coast and in Mexico, where rains have reduced availability. Salinas and Santa Maria will continue through early November, while East Coast supplies fluctuate with some growers finishing and others ramping up. Quality issues include thrip damage, internal burn, and aphids. MFC Iceberg Lettuce is available; Markon Best Available (MBA) is being packed as needed.',
-                    colorClass: 'bg-blue-100',
-                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    title: 'Pineapples',
+                    details: 'Prices are high, especially for seven-count stocks. Quality is very good; sugar levels are approximately 14.5 Brix. RSS Pineapple Chunks and Spears are available.'
+,
+                    colorClass: 'bg-yellow-300',
                 },
                 {
                     id: '24',
-                    title: 'Pears',
-                    details: 'Prices will remain elevated. Supplies are tight in Washington as the season will wrap up in three weeks. Softness and shortened shelf-life are minor issues as the season wraps up; sugar levels are approximately 13.5 Brix. California MFC Bartlett Pears will start shipping the week of July 14.',
-                    colorClass: 'bg-lime-200',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Raspberries',
+                    details: 'The market is level. Mexican supplies have begun to rebound from recent weather issues; the Baja season is underway. California\'s Santa Maria and Watsonville growing regions have begun shipping excellent-quality fruit.'
+,
+                    colorClass: 'bg-rose-300',
                 },
                 {
                     id: '25',
-                    title: 'Pineapples',
-                    details: 'Prices are up due to light supplies out of Costa Rica. 8-count fruit dominates availability, while $5/6$-count and crownless options are limited. Light volumes are expected to continue until mid-August. Quality is good, with Brix levels around 13. RSS Pineapple Chunks and Spears are available.',
-                    colorClass: 'bg-yellow-300',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Red and Yellow Potatoes',
+                    details: 'Markets are easing. New-crop red and yellow stocks are increasing in several growing regions. Quality is excellent. The Minnesota season will end in late September/early October. Harvesting will start in North Dakota and Colorado in September. MFC Red and Yellow Potatoes are on the market.'
+,
+                    colorClass: 'bg-amber-200',
                 },
                 {
                     id: '26',
-                    title: 'Raspberries',
-                    details: 'Prices remain steady. Good supplies are coming from Mexico, Baja, and the West Coast. The California season is underway with strong quality.',
-                    colorClass: 'bg-rose-300',
-                    qualitySymbol: '⭐⭐⭐⭐⭐', qualityValue: 5,
+                    title: 'Romaine',
+                    details: 'Prices are steady to slightly lower, but they could rebound if disease pressure further reduces yields. Quality is average; internal burn, insect pressure, and seeder are problems being culled in the field. MFC Premium Romaine is sporadic; MBA is being substituted when weights do not meet Markon specifications.'
+,
+                    colorClass: 'bg-green-100',
                 },
                 {
                     id: '27',
-                    title: 'Romaine',
-                    details: 'Supply is steady in Salinas and Santa Maria, California, but lower on the East Coast and Mexico, where rains have depleted supplies. Prices are elevated due to strong California demand. Salinas and Santa Maria will continue through early November, while some East Coast growers finish and restart in September, with others ramping up for summer. Quality concerns include INSV, fringe and internal burn, and thrip damage, but crews are still achieving MFC weights after trimming affected leaves. MFC Premium Romaine Lettuce is available.',
-                    colorClass: 'bg-green-100',
-                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
+                    title: 'Salads & Blends',
+                    details: 'The market is stable; Salinas Valley supplies are meeting processor demand. Overall quality is very good; reported quality defects are lower than one percent.'
+,
+                    colorClass: 'bg-green-50',
                 },
                 {
                     id: '28',
-                    title: 'Salads & Blends',
-                    details: 'Prices remain steady with ample supply from Salinas, California through early November. Quality concerns include 1-2% defects such as yellowing, mechanical damage, bolting, and insect damage in arugula and spinach, and about 2% bruising, fringe, and internal burn in romaine. Overall, shredded lettuce quality is excellent. The Markon Quality Assurance team is working to select the best lots of chopped romaine, focusing on younger leaves with less dark material. RSS Salads and Blends are being packed.',
-                    colorClass: 'bg-green-50',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Spring Mix',
+                    details: 'Prices are steady: Salinas Valley supplies are ample. Warmer weather may lead to bolting, but current quality is very good. RSS Arugula, Spinach, and Spring Mix are available.'
+,
+                    colorClass: 'bg-green-100',
                 },
                 {
                     id: '29',
-                    title: 'Spring Mix',
-                    details: 'Prices are steady. Ample supply is expected from Salinas through early November. Quality concerns are minimal, with about 1% defects, mainly from yellowing and insect damage. The mix offers good color and blend ratios. RSS Arugula, Spinach, and Spring Mix are available.',
-                    colorClass: 'bg-green-100',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Squash',
+                    details: 'East Coast markets are a bit higher in Michigan, Ohio, and the Northeastern states due to increasing demand. Growers will move to North Carolina in late August. West Coast prices are also inching up; cooler weather in Santa Maria, California has reduced yields slightly. Quality is excellent. MFC Zucchini and Yellow Squash are available.'
+,
+                    colorClass: 'bg-yellow-200',
                 },
                 {
                     id: '30',
-                    title: 'Squash',
-                    details: 'The market is steady: prices are slightly lower. Supply is improving as Santa Maria, California moves into second sets; overall quality is good. Supplies are good in Ohio and Michigan, with fair availability in New Jersey and New York. All sizes are available; quality remains good.',
-                    colorClass: 'bg-yellow-200',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Strawberries',
+                    details: 'California prices are inching up slowly; most harvests are past their peak and volume is falling. Mexican fruit is sufficient; markets are level. MFC Strawberries are available out of California.'
+,
+                    colorClass: 'bg-red-400',
                 },
                 {
                     id: '31',
-                    title: 'Strawberries',
-                    details: 'Prices are up. The Oxnard and Santa Maria, California growing regions are past their peak. Good supplies continue to come from Salinas/Watsonville growing regions. MFC Strawberries are available.',
-                    colorClass: 'bg-red-400',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
+                    title: 'Tomatoes',
+                    details: 'Roma and round markets are active due to low yields and strong demand on the East Coast. Grape and cherry varieties are tight this week. MFC Tomatoes are available.'
+,
+                    colorClass: 'bg-red-300',
                 },
                 {
                     id: '32',
                     title: 'Tree Fruit',
-                    details: 'Supplies continue to meet demand; prices are level. Nectarine sugar levels range from 10 to 12 Brix, peaches vary from 11 to 13 Brix, and plum sugars fall between 12 to 13 Brix.',
+                    details: 'Prices are unchanged. California supplies are sufficient. Small sizes are most abundant. Quality is very good: sugar levels range from 12 to 14 Brix.'
+,
                     colorClass: 'bg-pink-200',
-                    qualitySymbol: '⭐⭐⭐⭐', qualityValue: 4,
                 },
                 {
                     id: '33',
                     title: 'Watermelon',
-                    details: 'The market is level. Supplies are coming from Georgia, South Carolina, and North Carolina. Georgia has good volume, while North Carolina is just starting. The dominant sizes are 45- and 36-count, with limited availability of bins. Overall quality is good, with Brix levels at 10+.',
+                    details: 'The market is stable; East Coast yields are adequate. Quality is very good; all sizes are available. Sugar levels are approximately 10+ Brix.'
+,
                     colorClass: 'bg-green-300',
-                    qualitySymbol: '⭐⭐⭐⭐⭐', qualityValue: 5,
                 },
-                // New items from the report
-                {
-                    id: '34',
-                    title: 'Zucchini',
-                    details: 'Supplies are good in Ohio and Michigan. The market is steady.',
-                    colorClass: 'bg-green-200',
-                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
-                },
-                {
-                    id: '35',
-                    title: 'Brussels Sprouts',
-                    details: 'Brussels Sprouts are now shipping out of Salinas, California. Supplies are slowly increasing and expected to improve as more fields come online this week.',
-                    colorClass: 'bg-green-300',
-                    qualitySymbol: '⭐⭐⭐', qualityValue: 3,
-                },
-                {
-                    id: '36', // New ID for Idaho Potatoes
-                    title: 'Idaho Potatoes',
-                    details: 'Prices are higher on larger sizes (40- to 90-count), while 100-count and smaller sizes, along with No. 2s, remain steady. Supplies of larger sizes are light, particularly in Idaho. Idaho\'s new crop is expected to start in the first week of August. Potential quality concerns include pressure bruising and air checks in late-season storage crops. MFC Burbank and Norkotah Potatoes are available.',
-                    colorClass: 'bg-amber-100',
-                    qualitySymbol: '⭐⭐', qualityValue: 2,
-                }
             ];
 
             const gridContainer = document.getElementById('reference-items-grid');
@@ -526,85 +400,56 @@
             const modalTitle = document.getElementById('modal-title');
             const modalDetails = document.getElementById('modal-details');
             const closeModalBtn = document.getElementById('close-modal-btn');
-            const sortBySelect = document.getElementById('sort-by');
-
-            // Function to create and append tiles
+            
             function createTiles() {
                 gridContainer.innerHTML = '';
-                referenceItems.forEach(item => {
+                const sortedItems = [...referenceItems];
+                
+                // Sort the tiles by title A-Z by default.
+                sortedItems.sort((a, b) => a.title.localeCompare(b.title));
+
+                sortedItems.forEach(item => {
                     const tile = document.createElement('div');
                     tile.className = `rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1
-                                       cursor-pointer overflow-hidden border border-gray-200 flex flex-col items-center justify-center text-center p-4 h-32
+                                       cursor-pointer overflow-hidden border border-gray-200 flex flex-col items-center justify-center text-center p-4 h-16
                                        ${item.colorClass}`;
 
                     tile.innerHTML = `
                         <h2 class="text-lg font-bold text-gray-800 leading-tight mb-1">${item.title.toUpperCase()}</h2>
-                        <div class="symbol-box">
-                            <span class="quality-symbol">${item.qualitySymbol}</span>
-                        </div>
                     `;
                     tile.onclick = () => openModal(item);
                     gridContainer.appendChild(tile);
                 });
             }
 
-            // Function to open the modal
             function openModal(item) {
                 modalTitle.textContent = item.title.toUpperCase();
                 modalDetails.textContent = item.details;
                 detailModal.classList.remove('hidden');
-                // Add overflow-hidden to the body to prevent background scrolling
                 document.body.classList.add('overflow-hidden');
             }
 
-            // Function to close the modal
             function closeModal() {
                 detailModal.classList.add('hidden');
-                // Remove overflow-hidden from the body
                 document.body.classList.remove('overflow-hidden');
             }
 
-            // Function to sort tiles based on selected option
-            function sortTiles() {
-                const sortOption = sortBySelect.value;
-                switch (sortOption) {
-                    case 'title-asc':
-                        referenceItems.sort((a, b) => a.title.localeCompare(b.title));
-                        break;
-                    case 'title-desc':
-                        referenceItems.sort((a, b) => b.title.localeCompare(a.title));
-                        break;
-                    case 'quality-asc':
-                        referenceItems.sort((a, b) => a.qualityValue - b.qualityValue);
-                        break;
-                    case 'quality-desc':
-                        referenceItems.sort((a, b) => b.qualityValue - a.qualityValue);
-                        break;
-                }
-                createTiles();
-            }
-
-            // Event listeners
             closeModalBtn.addEventListener('click', closeModal);
-            sortBySelect.addEventListener('change', sortTiles);
             
-            // Close modal when clicking outside the content box
             detailModal.addEventListener('click', (event) => {
                 if (event.target === detailModal) {
                     closeModal();
                 }
             });
             
-            // Close modal when the Escape key is pressed
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' && !detailModal.classList.contains('hidden')) {
                     closeModal();
                 }
             });
 
-            // Initialize tiles and sort them by default (e.g., by title ascending)
             document.addEventListener('DOMContentLoaded', () => {
-                sortTiles(); // Call sortTiles to apply default A-Z sorting
+                createTiles();
             });
         })();
     </script>
