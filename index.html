@@ -71,7 +71,7 @@
         
         <!-- Contact Information -->
         <p class="text-lg text-gray-800 mb-2 text-center mt-6">
-            Contact Your Specialist: <a href="mailto:greg.hale@gfs.com" class="text-gray-900 hover:underline">Greg Hale (North)</a> | <a href="mailto:tracy.ballard@gfs.com" class="text-gray-900 hover:underline">Tracy Ballard (South)</a>
+            Contact Your Specialist: <a href="mailto:greg.hale@gfs.com" class="text-gray-900 hover:underline">Greg Hale (North)</a>
         </p>
 
         <!-- Page Title -->
@@ -83,6 +83,9 @@
         <div id="reference-items-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 w-full max-w-6xl">
             <!-- Tiles will be inserted here by JavaScript -->
         </div>
+        <!-- Loading / Error messages -->
+        <div id="loading-message" class="text-gray-700 text-lg mt-4 text-center animate-pulse">Loading produce items…</div>
+        <div id="error-message" class="text-red-600 text-lg mt-4 text-center hidden">⚠️ Failed to load produce items. Please try again later.</div>
 
         <!-- State of the Market Section -->
         <div class="w-full max-w-6xl mt-8 p-6 rounded-xl border border-black bg-green-100 bg-opacity-50">
@@ -169,6 +172,8 @@
             const modalTitle = document.getElementById('modal-title');
             const modalDetails = document.getElementById('modal-details');
             const closeModalBtn = document.getElementById('close-modal-btn');
+            const loadingMessage = document.getElementById('loading-message');
+            const errorMessage = document.getElementById('error-message');
             let lastFocusedElement = null;
 
             const focusableSelectors = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -207,6 +212,7 @@
                     button.addEventListener('click', () => openModal(item));
                     gridContainer.appendChild(button);
                 });
+                loadingMessage.classList.add('hidden');
             }
 
             function openModal(item) {
@@ -247,7 +253,11 @@
                         referenceItems = data;
                         createTiles();
                     })
-                    .catch(err => console.error('Failed to load produce.json', err));
+                    .catch(err => {
+                        console.error('Failed to load produce.json', err);
+                        loadingMessage.classList.add('hidden');
+                        errorMessage.classList.remove('hidden');
+                    });
             });
         })();
     </script>
